@@ -1,6 +1,5 @@
 var questions = [];
 var answers = [];
-var score = 0;
 
 function AllQuestions(question, choices, correctAnswer) {
 	this.question = question;
