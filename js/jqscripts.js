@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 
 	var speed = 500; 			// fade speed
-	var name, val, id, divId = "";
+	var name, val, id, divId, results = "";
 
 	//load questions
 	loadQuestions();
@@ -37,6 +37,8 @@ $(document).ready(function(){
 		$('.oldActive').removeClass('oldActive');
 		$('.question').fadeOut(speed);
 		$('.active').fadeIn(speed);
+
+		//if last question, remove next button and leave submit button
 	}
 
 	//load all questions and buttons
@@ -72,9 +74,33 @@ $(document).ready(function(){
 		qIdNum = parseInt($('.active').attr('id'));
 
 		//populate answer array with answers from each question
-		answers[qIdNum] = document.forms["quizForm"]["q" + qIdString].value;
+		answers[qIdNum] = parseInt(document.forms["quizForm"]["q" + qIdString].value);
+
+		//add notification to top of screen alerting user about correctness of answer
+		if (answers[qIdNum] == questions[qIdNum].correctAnswer) {
+			alertScore(qIdNum, true, score);
+		} else {
+			alertScore(qIdNum, false, score);
+		}
 
 	}
-
+	function alertScore (questionIdNumber, correctness, currentScore) {
+		var returnArray = [];
+		results = $('#results');
+		if (correctness) {
+			//update score
+			currentScore++;
+			//build and append html results div
+			results.html('<h3> You got question #'+questionIdNumber+' correct!</h3>');
+		} else {
+			//update score
+			currentScore++;
+			//build and append html results div
+			results.html('<h3> You got question #'+questionIdNumber+' correct!</h3>');
+		}
+		returnArray[0] = currentScore;
+		returnArray[1] = results;
+		return returnArray;
+	}
 
 });
